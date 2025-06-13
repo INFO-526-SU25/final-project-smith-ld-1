@@ -1,8 +1,8 @@
 ---
-title: "Proposal title"
+title: "Medicinal Values"
 subtitle: "Proposal"
 author: 
-  - name: "Team Name"
+  - name: "Lucas Smith"
     affiliations:
       - name: "School of Information, University of Arizona"
 description: "Project description"
