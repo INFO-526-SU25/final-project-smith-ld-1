@@ -1,11 +1,11 @@
 ---
-title: "Medicinal Values"
+title: "Proposal title"
 subtitle: "Proposal"
 author: 
   - name: "Lucas Smith"
     affiliations:
       - name: "School of Information, University of Arizona"
-description: "Project description"
+description: "Medicinal Journal Evaluation"
 format:
   html:
     code-tools: true
@@ -31,14 +31,48 @@ library(tidyverse)
 #| message: false
 ```
 
-A brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.
+------------------------------------------------------------------------
 
-Make sure to load the data and use inline code for some of this information.
+This dataset is a summarized values of research papers within reproductive medicinal journals, focused on racial and ethnic disparities. Each observation is one journal article, containing the date and name of publication, racial and ethnic statistics (quantity of each), and yes/no descriptions of what the article covered. It also contains a second file, containing information related to any modeling made within papers. I will primarily focus on the article data, which is 316 observations, each with 65 data points. I found this data interesting as I have previously worked in the medical field, and this data set seems to be a more comprehensive information surrounding medical information available within the 2025 data sets.
+
+```{r}
+model <- read_csv("./data/model_dat.csv")
+articles <- read_csv('./data/article_dat.csv')
+```
+
+```{r}
+tibble(articles)
+```
+
+```{r}
+tibble(model)
+```
+
+```{r}
+print(str(model))
+print(str(articles))
+```
 
 ## Questions
 
-The two questions you want to answer.
+1.  How have ethnic and racial rinclusion into research changed across time?
+2.  How has the length of a study changed over time, and is the difference noticeable between different journals?
 
 ## Analysis plan
 
 -   A plan for answering each of the questions including the variables involved, variables to be created (if any), external data to be merged in (if any).
+-   Existing features
+    -   There are 16 features relating to race. They are categorized as `race1`, `race1_ss` (count), etc. The same setup is done or ethnic categories. These features will be used to answer question 1.
+    -   Both question 1 and 2 will use the year, month, day features.
+-   Features created
+    -   As dates are subdivided into 3 separate features by `month`, `day`, `year`, I will consolidate them into a date object for me to more easily use them when plotting across time.
+    -   Since each row observation has multiple columns for race, I will need to transform the data into a long pivot so that I can plot race across time. To do this I will not be able to use a build in function to do so. This is because features are of different types, of which the `pivot_longer` function does not support.
+    -   Study time. I will need to create a new feature designating the time that the study took. This is a mathematical calculation of `study_year_end - study_year_start`.
+    -   Percentage calculations of ethnic disparities. Instead of using raw values, I will calculate percentage of ethnic/racial disparities to standardize visualizations.
+-   Data cleansing
+    -   Race and ethnic groups are not standardized. there are similarly named racial groups which will need to be standardized. As some examples: "White", "non-hispanic-white", "White, Non-Hispanic", and "Non-Hispanic White" would need to be mapped to the same racial group.
+    -   For clarification, I am not able to accurately differentiate whether it is capable of limiting a structure of racial groups by definition. As an example of "White" and "White, Non-Hispanic" I am unable to assume whether "White" indicates "Non-Hispanic White". For the purposes of analysis, I will consolidate these to groups as a subset of "White", inclusive of non-Hispanic white and white as identified in papers.
+-   Visualization creation
+    -   I anticipate plotting question 1 (ethnic disparities over time) as a time series analysis as month, years as the x-axis, and the percentage of ethnic category on the y-axis, grouping and coloring by racial/ethnic category.
+    -   For question two, similarly utilize a time series across the x-axis, and view the length of study as the y-axis.
+    -   Pending further thought, create a connected scatter plot of time with the length of a study and the percentage of
