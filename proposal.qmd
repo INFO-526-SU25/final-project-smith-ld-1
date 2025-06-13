@@ -76,3 +76,13 @@ print(str(articles))
     -   I anticipate plotting question 1 (ethnic disparities over time) as a time series analysis as month, years as the x-axis, and the percentage of ethnic category on the y-axis, grouping and coloring by racial/ethnic category.
     -   For question two, similarly utilize a time series across the x-axis, and view the length of study as the y-axis.
     -   Pending further thought, create a connected scatter plot of time with the length of a study and the percentage of
+
+# Tasks
+
+| Due      | Item                                                |
+|----------|-----------------------------------------------------|
+| 6/20     | Develop analysis plan to cleanse and transform data |
+| 6/27     | Transform Data                                      |
+| 6/27     | Finalize visualizations to make                     |
+| Due Date | Make visualizations                                 |
+| Due Date | Finalize report                                     |
