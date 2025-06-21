@@ -53,7 +53,7 @@ tibble(articles)
 ## Questions
 
 1.  How have ethnic and racial inclusion into research changed across time?
-2.  How has the length of a study changed over time, and is the difference noticeable between different journals?
+2.  How is the length of a study noticeable between different journals?
 
 ## Analysis plan
 
