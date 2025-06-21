@@ -2,30 +2,30 @@
   {
     "objectID": "proposal.html",
     "href": "proposal.html",
-    "title": "Proposal title",
+    "title": "Review of Reproductive Journals and their disparities of race and ethnicity",
     "section": "",
     "text": "library(tidyverse)"
   },
   {
     "objectID": "proposal.html#dataset",
     "href": "proposal.html#dataset",
-    "title": "Proposal title",
+    "title": "Review of Reproductive Journals and their disparities of race and ethnicity",
     "section": "Dataset",
-    "text": "Dataset\nA brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.\nMake sure to load the data and use inline code for some of this information."
+    "text": "Dataset\n\narticles &lt;- read_csv('./data/article_dat.csv')\n\n\nThis dataset is a summarized values of research papers within reproductive medicinal journals, focused on racial and ethnic disparities. Each observation is one journal article, containing the date and name of publication, racial and ethnic statistics (quantity of each), and yes/no descriptions of what the article covered. It also contains a second file, containing information related to any modeling made within papers. I will primarily focus on the article data, which is 316 observations, each with 65 data points. I found this data interesting as I have previously worked in the medical field, and this data set seems to be a more comprehensive information surrounding medical information available within the 2025 data sets.\nThis dataset is a compilation of 6 journals, spanning from 2010 to 2023. While there are two files, the model file is included but at the current moment not intended to be used.\n\nunique(articles[[\"journal\"]])\n\n[1] \"Obstetrics and gynecology\"                                    \n[2] \"Gynecologic oncology\"                                         \n[3] \"American journal of obstetrics and gynecology\"                \n[4] \"Fertility and sterility\"                                      \n[5] \"BJOG : an international journal of obstetrics and gynaecology\"\n[6] \"Human reproduction (Oxford, England)\"                         \n\n\n\ntibble(articles)\n\n# A tibble: 318 × 65\n       pmid doi         jabbrv journal  year month day   title abstract keywords\n      &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   \n 1 31764726 10.1097/AO… Obste… Obstet…  2020 04    03    Desi… To eval… Adult; …\n 2 31492539 10.1016/j.… Gynec… Gyneco…  2019 11    05    Medi… To comp… Health …\n 3 30890269 10.1016/j.… Gynec… Gyneco…  2019 07    05    Iden… Germlin… Adult; …\n 4 29605049 10.1016/j.… Gynec… Gyneco…  2018 07    10    Expl… To eval… High vo…\n 5 28800945 10.1016/j.… Gynec… Gyneco…  2018 07    10    Impa… Althoug… Age; Di…\n 6 27697287 10.1016/j.… Gynec… Gyneco…  2017 05    29    The … Enrollm… Clinica…\n 7 27103178 10.1016/j.… Gynec… Gyneco…  2017 05    01    Surg… To eval… Delayed…\n 8 28159409 10.1016/j.… Gynec… Gyneco…  2017 05    25    Disp… To exam… Adenoca…\n 9 26706661 10.1016/j.… Gynec… Gyneco…  2016 06    01    Dyin… To iden… Advance…\n10 26325527 10.1016/j.… Gynec… Gyneco…  2016 01    07    Asse… Sexual … Depress…\n# ℹ 308 more rows\n# ℹ 55 more variables: study_aim &lt;chr&gt;, study_location &lt;chr&gt;,\n#   study_year_start &lt;dbl&gt;, study_year_end &lt;dbl&gt;, study_type &lt;chr&gt;,\n#   data_source &lt;chr&gt;, race1 &lt;chr&gt;, race1_ss &lt;dbl&gt;, race2 &lt;chr&gt;,\n#   race2_ss &lt;dbl&gt;, race3 &lt;chr&gt;, race3_ss &lt;dbl&gt;, race4 &lt;chr&gt;, race4_ss &lt;dbl&gt;,\n#   race5 &lt;chr&gt;, race5_ss &lt;dbl&gt;, race6 &lt;chr&gt;, race6_ss &lt;dbl&gt;, race7 &lt;chr&gt;,\n#   race7_ss &lt;dbl&gt;, race8 &lt;chr&gt;, race8_ss &lt;dbl&gt;, eth1 &lt;chr&gt;, eth1_ss &lt;dbl&gt;, …"
   },
   {
     "objectID": "proposal.html#questions",
     "href": "proposal.html#questions",
-    "title": "Proposal title",
+    "title": "Review of Reproductive Journals and their disparities of race and ethnicity",
     "section": "Questions",
-    "text": "Questions\nThe two questions you want to answer."
+    "text": "Questions\n\nHow have ethnic and racial inclusion into research changed across time?\nHow has the length of a study changed over time, and is the difference noticeable between different journals?"
   },
   {
     "objectID": "proposal.html#analysis-plan",
     "href": "proposal.html#analysis-plan",
-    "title": "Proposal title",
+    "title": "Review of Reproductive Journals and their disparities of race and ethnicity",
     "section": "Analysis plan",
-    "text": "Analysis plan\n\nA plan for answering each of the questions including the variables involved, variables to be created (if any), external data to be merged in (if any)."
+    "text": "Analysis plan\n\nA plan for answering each of the questions including the variables involved, variables to be created (if any), external data to be merged in (if any).\nExisting features\n\nThere are 16 features relating to race. They are categorized as race1, race1_ss (count), etc. The same setup is done or ethnic categories. These features will be used to answer question 1.\nBoth question 1 and 2 will use the year, month, day features.\n\nFeatures created\n\nAs dates are subdivided into 3 separate features by month, day, year, I will consolidate them into a date object for me to more easily use them when plotting across time.\nSince each row observation has multiple columns for race, I will need to transform the data into a long pivot so that I can plot race across time. To do this I will not be able to use a build in function to do so. This is because features are of different types, of which the pivot_longer function does not support.\nStudy time. I will need to create a new feature designating the time that the study took. This is a mathematical calculation of study_year_end - study_year_start.\nPercentage calculations of ethnic disparities. Instead of using raw values, I will calculate percentage of ethnic/racial disparities to standardize visualizations.\n\nData cleansing\n\nRace and ethnic groups are not standardized. there are similarly named racial groups which will need to be standardized. As some examples: “White”, “non-hispanic-white”, “White, Non-Hispanic”, and “Non-Hispanic White” would need to be mapped to the same racial group.\nFor clarification, I am not able to accurately differentiate whether it is capable of limiting a structure of racial groups by definition. As an example of “White” and “White, Non-Hispanic” I am unable to assume whether “White” indicates “Non-Hispanic White”. For the purposes of analysis, I will consolidate these to groups as a subset of “White”, inclusive of non-Hispanic white and white as identified in papers.\nFor answering my questions, I do not anticipate adding percentages of each journal. This was considered and not done, as each journal has different sizes and an overall goal is to see inclusion across all journals, not just the percentage of participants within each journal.\nStudy type is also not being included at the current moment, however could be considered for future analysis.\n\nVisualization creation\n\nI anticipate plotting question 1 (ethnic disparities over time) as a time series analysis as month, years as the x-axis, and the percentage of ethnic category on the y-axis, grouping and coloring by racial/ethnic category.\nFor question two, similarly utilize a time series across the x-axis, and view the length of study as the y-axis.\nPending further thought, create a connected scatter plot of time with the length of a study and the percentage of"
   },
   {
     "objectID": "index.html",
@@ -45,22 +45,22 @@
     "objectID": "presentation.html#quarto",
     "href": "presentation.html#quarto",
     "title": "Project title",
-    "section": "Quarto",
-    "text": "Quarto\n\nThe presentation is created using the Quarto CLI\n## sets the start of a new slide"
+    "section": "",
+    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide"
   },
   {
     "objectID": "presentation.html#layouts",
     "href": "presentation.html#layouts",
     "title": "Project title",
-    "section": "Layouts",
-    "text": "Layouts\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis\n\nAnd add footnotes"
+    "section": "",
+    "text": "You can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis"
   },
   {
     "objectID": "presentation.html#code",
     "href": "presentation.html#code",
     "title": "Project title",
-    "section": "Code",
-    "text": "Code\n\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;"
+    "section": "",
+    "text": "# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;"
   },
   {
     "objectID": "presentation.html#plots",
@@ -73,8 +73,8 @@
     "objectID": "presentation.html#plot-and-text",
     "href": "presentation.html#plot-and-text",
     "title": "Project title",
-    "section": "Plot and text",
-    "text": "Plot and text\n\n\n\nSome text\ngoes here"
+    "section": "",
+    "text": "Some text\ngoes here"
   },
   {
     "objectID": "presentation.html#tables",
@@ -88,7 +88,7 @@
     "href": "presentation.html#images",
     "title": "Project title",
     "section": "Images",
-    "text": "Images\n\nImage credit: Danielle Navarro, Percolate."
+    "text": "Images\n\n\n\nImage credit: Danielle Navarro, Percolate."
   },
   {
     "objectID": "presentation.html#math-expressions",
@@ -110,5 +110,19 @@
     "title": "About",
     "section": "",
     "text": "This project was developed by [Team Name] For INFO 526 - Data Analysis and Visualization at the University of Arizona, taught by Dr. Greg Chism. The team is comprised of the following team members.\n\nTeam member 1: One sentence description of Team member 1 (e.g., year, major, etc.).\nTeam member 2: One sentence description of Team member 2 (e.g., year, major, etc.).\nTeam member 3: One sentence description of Team member 3 (e.g., year, major, etc.).\nTeam member 4: One sentence description of Team member 4 (e.g., year, major, etc.)."
+  },
+  {
+    "objectID": "presentation.html",
+    "href": "presentation.html",
+    "title": "Project title",
+    "section": "",
+    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide\n\n\n\n\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis\n\n\n\n\n\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSome text\ngoes here"
+  },
+  {
+    "objectID": "presentation.html#footnotes",
+    "href": "presentation.html#footnotes",
+    "title": "Project title",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nAnd add footnotes↩︎"
   }
 ]

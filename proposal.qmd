@@ -1,11 +1,11 @@
 ---
-title: "Proposal title"
+title: "Review of Reproductive Journals and their disparities of race and ethnicity"
 subtitle: "Proposal"
 author: 
   - name: "Lucas Smith"
     affiliations:
       - name: "School of Information, University of Arizona"
-description: "Medicinal Journal Evaluation"
+description: "Medicinal journal evaluation of reproductive journals focusing on racial and ethnic disparities. With this research, I plan to review the disparities of race and ethnicity in medical articles over time, as well as across journals. I hypothesize that the disparity does change and decrease as time increases."
 format:
   html:
     code-tools: true
@@ -29,33 +29,30 @@ library(tidyverse)
 ```{r}
 #| label: load-dataset
 #| message: false
+
+articles <- read_csv('./data/article_dat.csv')
+
 ```
 
 ------------------------------------------------------------------------
 
 This dataset is a summarized values of research papers within reproductive medicinal journals, focused on racial and ethnic disparities. Each observation is one journal article, containing the date and name of publication, racial and ethnic statistics (quantity of each), and yes/no descriptions of what the article covered. It also contains a second file, containing information related to any modeling made within papers. I will primarily focus on the article data, which is 316 observations, each with 65 data points. I found this data interesting as I have previously worked in the medical field, and this data set seems to be a more comprehensive information surrounding medical information available within the 2025 data sets.
 
+This dataset is a compilation of 6 journals, spanning from 2010 to 2023. While there are two files, the `model` file is included but at the current moment not intended to be used.
+
 ```{r}
-model <- read_csv("./data/model_dat.csv")
-articles <- read_csv('./data/article_dat.csv')
+#| label: show unique journals
+unique(articles[["journal"]])
 ```
 
 ```{r}
+#| label: view article tribble
 tibble(articles)
-```
-
-```{r}
-tibble(model)
-```
-
-```{r}
-print(str(model))
-print(str(articles))
 ```
 
 ## Questions
 
-1.  How have ethnic and racial rinclusion into research changed across time?
+1.  How have ethnic and racial inclusion into research changed across time?
 2.  How has the length of a study changed over time, and is the difference noticeable between different journals?
 
 ## Analysis plan
@@ -72,6 +69,8 @@ print(str(articles))
 -   Data cleansing
     -   Race and ethnic groups are not standardized. there are similarly named racial groups which will need to be standardized. As some examples: "White", "non-hispanic-white", "White, Non-Hispanic", and "Non-Hispanic White" would need to be mapped to the same racial group.
     -   For clarification, I am not able to accurately differentiate whether it is capable of limiting a structure of racial groups by definition. As an example of "White" and "White, Non-Hispanic" I am unable to assume whether "White" indicates "Non-Hispanic White". For the purposes of analysis, I will consolidate these to groups as a subset of "White", inclusive of non-Hispanic white and white as identified in papers.
+    -   For answering my questions, I do not anticipate adding percentages of each journal. This was considered and not done, as each journal has different sizes and an overall goal is to see inclusion across all journals, not just the percentage of participants within each journal.
+    -   Study type is also not being included at the current moment, however could be considered for future analysis.
 -   Visualization creation
     -   I anticipate plotting question 1 (ethnic disparities over time) as a time series analysis as month, years as the x-axis, and the percentage of ethnic category on the y-axis, grouping and coloring by racial/ethnic category.
     -   For question two, similarly utilize a time series across the x-axis, and view the length of study as the y-axis.
