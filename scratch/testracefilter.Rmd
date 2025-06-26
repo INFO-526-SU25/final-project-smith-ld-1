@@ -282,3 +282,100 @@ endingcleansed <- unique_race_values |>
     mutate(race_value = cur_data()[[paste0(race_column, "_ss")]]) 
 ```
 
+
+
+```{r}
+data <- endingcleansed |> select(clean_race, race_value, journal, year) |> 
+  filter(!is.na(clean_race) | !is.na(race_value))
+
+
+aggregated_values <- data |> group_by(year, clean_race) |> summarise(
+  total_counts = sum(race_value)
+)
+
+# we find that some values = -99, initial journal incorrect inputs
+
+aggregated_values <- aggregated_values |> ungroup() |> filter(total_counts != -99)
+```
+
+
+```{r}
+
+ggplot(aggregated_values, aes(x=year, y=total_counts, color=clean_race)) +
+         geom_line()
+```
+
+```{r}
+proportions <- aggregated_values |> 
+  group_by(year, clean_race) |> 
+  summarise(n = sum(total_counts)) |>
+  mutate(freq = (n / sum(n)) * 100)
+```
+
+```{r}
+proportions <- proportions |> filter(round(freq, 0) > 0)
+ggplot(proportions, aes(x=year, y=freq, fill=clean_race)) +
+         geom_col() + geom_text(aes(label=round(freq, 0)))
+
+
+```
+
+```{r}
+# set width of code output
+options(width = 65)
+library(ggplot2)
+library(scales)
+
+
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+
+ggplot(proportions, aes(x=year, y=freq, color=clean_race)) +
+         geom_path(linewidth=1) + 
+  labs(
+    x="Year", y="Percentage of Total Population"
+  ) 
+
+
+```
+
+```{r}
+ggplot(proportions, aes(x=year, y=freq, color=clean_race)) +
+         geom_path(linewidth=1) + 
+  facet_wrap(vars(clean_race))
+```
+
+```{r}
+tmp <- proportions %>%
+  mutate(race2=clean_race)
+
+tmp %>%
+  ggplot( aes(x=year, y=freq)) +
+    geom_line( data=tmp %>% dplyr::select(-clean_race), aes(group=race2), color="grey", size=0.5, alpha=0.5) +
+    geom_line( aes(color=clean_race), color="#69b3a2", size=1.2 )+
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=14),
+      panel.grid = element_blank()
+    ) +
+    facet_wrap(~clean_race) + 
+  theme(
+    panel.background=element_blank(),
+    strip.background=element_rect(fill="lightyellow3")
+  )
+
+# ref https://www.data-to-viz.com/caveat/spaghetti.html
+```
+
+
+```{r}
+
+```
+
