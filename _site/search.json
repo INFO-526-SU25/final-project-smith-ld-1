@@ -44,63 +44,63 @@
   {
     "objectID": "presentation.html#quarto",
     "href": "presentation.html#quarto",
-    "title": "Project title",
-    "section": "",
-    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide"
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Quarto",
+    "text": "Quarto\n\nThe presentation is created using the Quarto CLI\n## sets the start of a new slide"
   },
   {
     "objectID": "presentation.html#layouts",
     "href": "presentation.html#layouts",
-    "title": "Project title",
-    "section": "",
-    "text": "You can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis"
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Layouts",
+    "text": "Layouts\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\nlike\nthis\n\nAnd add footnotes"
   },
   {
     "objectID": "presentation.html#code",
     "href": "presentation.html#code",
-    "title": "Project title",
-    "section": "",
-    "text": "# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;"
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Code",
+    "text": "Code"
   },
   {
     "objectID": "presentation.html#plots",
     "href": "presentation.html#plots",
-    "title": "Project title",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
     "section": "Plots",
     "text": "Plots"
   },
   {
     "objectID": "presentation.html#plot-and-text",
     "href": "presentation.html#plot-and-text",
-    "title": "Project title",
-    "section": "",
-    "text": "Some text\ngoes here"
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Plot and text",
+    "text": "Plot and text\n\n\n\nSome text\ngoes here"
   },
   {
     "objectID": "presentation.html#tables",
     "href": "presentation.html#tables",
-    "title": "Project title",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
     "section": "Tables",
     "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\nAdelie\nTorgersen\n39.1\n18.7\n181\n3750\nmale\n\n\nAdelie\nTorgersen\n39.5\n17.4\n186\n3800\nfemale\n\n\nAdelie\nTorgersen\n40.3\n18.0\n195\n3250\nfemale\n\n\nAdelie\nTorgersen\nNA\nNA\nNA\nNA\nNA\n\n\nAdelie\nTorgersen\n36.7\n19.3\n193\n3450\nfemale\n\n\nAdelie\nTorgersen\n39.3\n20.6\n190\n3650\nmale"
   },
   {
     "objectID": "presentation.html#images",
     "href": "presentation.html#images",
-    "title": "Project title",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
     "section": "Images",
-    "text": "Images\n\n\n\nImage credit: Danielle Navarro, Percolate."
+    "text": "Images\n\nImage credit: Danielle Navarro, Percolate."
   },
   {
     "objectID": "presentation.html#math-expressions",
     "href": "presentation.html#math-expressions",
-    "title": "Project title",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
     "section": "Math Expressions",
     "text": "Math Expressions\nYou can write LaTeX math expressions inside a pair of dollar signs, e.g. $\\alpha+\\beta$ renders \\(\\alpha + \\beta\\). You can use the display style with double dollar signs:\n$$\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i$$\n\\[\n\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i\n\\]\nLimitations:\n\nThe source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting $$ must appear in the very beginning of a line, followed immediately by a non-space character, and the ending $$ must be at the end of a line, led by a non-space character;\nThere should not be spaces after the opening $ or before the closing $."
   },
   {
     "objectID": "presentation.html#feeling-adventurous",
     "href": "presentation.html#feeling-adventurous",
-    "title": "Project title",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
     "section": "Feeling adventurous?",
     "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
   },
@@ -124,5 +124,89 @@
     "title": "Project title",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nAnd add footnotes↩︎"
+  },
+  {
+    "objectID": "presentation.html#data-and-purpose",
+    "href": "presentation.html#data-and-purpose",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Data and Purpose",
+    "text": "Data and Purpose\n\nTidyTuesday contains a repository of reproductive journals, each with values of the counts for racial and ethnic categories.\nData is taken from 2010-2023\nWith a background as a software engineer in the healthcare industry, I was interested to see how this data would change over time."
+  },
+  {
+    "objectID": "presentation.html#description-of-data",
+    "href": "presentation.html#description-of-data",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Description of Data",
+    "text": "Description of Data\nViewed below, the data is contained of 318 research articles, each with 61 features. Features contain basic journal information such as the journal, article name, year of publication, and the racial makeup of the article.\n\n\n# A tibble: 318 × 65\n       pmid doi         jabbrv journal  year month day   title abstract keywords\n      &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   \n 1 31764726 10.1097/AO… Obste… Obstet…  2020 04    03    Desi… To eval… Adult; …\n 2 31492539 10.1016/j.… Gynec… Gyneco…  2019 11    05    Medi… To comp… Health …\n 3 30890269 10.1016/j.… Gynec… Gyneco…  2019 07    05    Iden… Germlin… Adult; …\n 4 29605049 10.1016/j.… Gynec… Gyneco…  2018 07    10    Expl… To eval… High vo…\n 5 28800945 10.1016/j.… Gynec… Gyneco…  2018 07    10    Impa… Althoug… Age; Di…\n 6 27697287 10.1016/j.… Gynec… Gyneco…  2017 05    29    The … Enrollm… Clinica…\n 7 27103178 10.1016/j.… Gynec… Gyneco…  2017 05    01    Surg… To eval… Delayed…\n 8 28159409 10.1016/j.… Gynec… Gyneco…  2017 05    25    Disp… To exam… Adenoca…\n 9 26706661 10.1016/j.… Gynec… Gyneco…  2016 06    01    Dyin… To iden… Advance…\n10 26325527 10.1016/j.… Gynec… Gyneco…  2016 01    07    Asse… Sexual … Depress…\n# ℹ 308 more rows\n# ℹ 55 more variables: study_aim &lt;chr&gt;, study_location &lt;chr&gt;,\n#   study_year_start &lt;dbl&gt;, study_year_end &lt;dbl&gt;, study_type &lt;chr&gt;,\n#   data_source &lt;chr&gt;, race1 &lt;chr&gt;, race1_ss &lt;dbl&gt;, race2 &lt;chr&gt;,\n#   race2_ss &lt;dbl&gt;, race3 &lt;chr&gt;, race3_ss &lt;dbl&gt;, race4 &lt;chr&gt;, race4_ss &lt;dbl&gt;,\n#   race5 &lt;chr&gt;, race5_ss &lt;dbl&gt;, race6 &lt;chr&gt;, race6_ss &lt;dbl&gt;, race7 &lt;chr&gt;,\n#   race7_ss &lt;dbl&gt;, race8 &lt;chr&gt;, race8_ss &lt;dbl&gt;, eth1 &lt;chr&gt;, eth1_ss &lt;dbl&gt;, …\n\n\nReference https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-02-25/readme.md"
+  },
+  {
+    "objectID": "presentation.html#research-questions",
+    "href": "presentation.html#research-questions",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Research Questions",
+    "text": "Research Questions\nI provided two questions for review.\n\nHow have ethnic and racial inclusion into research changed across time?\nHow is the length of a study noticeable between different journals?\n\nThe overarching concept is to understand how trends could be seen over time."
+  },
+  {
+    "objectID": "presentation.html#overview",
+    "href": "presentation.html#overview",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Overview",
+    "text": "Overview\nCleansing used in these stages\n\nStratifying race/ethnicity\nPivoting the dataframe to be able to use for analysis\nAggregate values\nAlter values to proportions rather than raw values"
+  },
+  {
+    "objectID": "presentation.html#stratifying-race-and-ethnicity",
+    "href": "presentation.html#stratifying-race-and-ethnicity",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Stratifying Race and Ethnicity",
+    "text": "Stratifying Race and Ethnicity\nI manually reviewed mappings of values to ensure accuracy.\n\nOriginally, automation via regex was considered, but not implemented due to risk of incorrect categorization.\nFor values that I could not identify, instead of a risk of missclassification, I identified as a separate category.\nValues were stratified into: American Indian or Alaskan Native, Asian, Black, Hispanic, Hawaiian or Pacific Islander, Other (Unknown), White, and Uncategorizable."
+  },
+  {
+    "objectID": "presentation.html#pivoting",
+    "href": "presentation.html#pivoting",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Pivoting",
+    "text": "Pivoting\nRows were designed as containing all values of race. This was pivoted to support visualization aggregation.\n\n\n\nJournal\nrace1\nrace1ss\nrace2\nrace2ss\n\n\n\n\nJournal A\nWhite\n10\nAsian\n3\n\n\n\n\n\n\nJournal\nRace\nRace Count\n\n\n\n\nJournal A\nWhite\n10\n\n\nJournal A\nAsian\n3"
+  },
+  {
+    "objectID": "presentation.html#aggregation",
+    "href": "presentation.html#aggregation",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Aggregation",
+    "text": "Aggregation\nValues were aggregated across year and race to support a high level view of counts.\n\n\n\nJournal\nYear\nRace\nRace Count\n\n\n\n\nA\n2010\nWhite\n7\n\n\nB\n2011\nAsian\n5\n\n\nB\n2011\nAsian\n3\n\n\n\nInto\n\n\n\nYear\nRace\nTotal Count\n\n\n\n\n2010\nWhite\n7\n\n\n2011\nAsian\n8"
+  },
+  {
+    "objectID": "presentation.html#proportions",
+    "href": "presentation.html#proportions",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Proportions",
+    "text": "Proportions\nInstead of using raw values, proportions were assigned. This was more accurate to provide a better understanding as to how an increase or decrease in disparities were conducted.\n\nExample: if the number of publications increased over the years, by default we could expect the number of people involved in studies to increase"
+  },
+  {
+    "objectID": "presentation.html#racial-ethnic-inclusion-over-time",
+    "href": "presentation.html#racial-ethnic-inclusion-over-time",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Racial & Ethnic Inclusion Over Time",
+    "text": "Racial & Ethnic Inclusion Over Time\n\n\n\nHow have ethnic and racial inclusion into research changed across time?"
+  },
+  {
+    "objectID": "presentation.html#comparison-of-study-length",
+    "href": "presentation.html#comparison-of-study-length",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Comparison of Study Length",
+    "text": "Comparison of Study Length\n\nHow is the length of a study noticeable between different journals?\n\n\nTook 3 features, removed missing and filtered those without lengths\n\n\narticle_lengths &lt;- articles[c('study_year_start', \n                              'study_year_end', \n                              'journal')] |&gt; \n  mutate(research_length = study_year_end - study_year_start) |&gt;\n  filter(!is.na(study_year_start) &\n           study_year_start &gt; 0 & study_year_end &gt; 0 )"
+  },
+  {
+    "objectID": "presentation.html#comparison-of-study-length-1",
+    "href": "presentation.html#comparison-of-study-length-1",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Comparison of Study Length",
+    "text": "Comparison of Study Length"
+  },
+  {
+    "objectID": "presentation.html#analysis-1",
+    "href": "presentation.html#analysis-1",
+    "title": "Analysis of Racial and Ethnic Disparities in Gynecological Studies",
+    "section": "Analysis",
+    "text": "Analysis\n\nComparison of race/ethnicity across time\n\nNot much change\n2020: highlight of 98% of values were listed as Unknown\n\nComparison of study length\n\nJournals seemed to have trends of lengths\n\nFamily and sterility being less than 5\nBJOG around 10\n\nHuman reproduction started in incremental years:\n\n2000, 2005, 2010"
   }
 ]

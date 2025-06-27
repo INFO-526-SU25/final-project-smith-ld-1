@@ -358,8 +358,8 @@ tmp <- proportions %>%
 
 tmp %>%
   ggplot( aes(x=year, y=freq)) +
-    geom_line( data=tmp %>% dplyr::select(-clean_race), aes(group=race2), color="grey", size=0.5, alpha=0.5) +
-    geom_line( aes(color=clean_race), color="#69b3a2", size=1.2 )+
+    geom_line( data=tmp %>% select(-clean_race), aes(group=race2), color="lightgrey", size=0.5, alpha=0.5) +
+    geom_line( aes(color=clean_race), color="darkolivegreen4", size=1.2 )+
     theme(
       legend.position="none",
       plot.title = element_text(size=14),
@@ -368,7 +368,12 @@ tmp %>%
     facet_wrap(~clean_race) + 
   theme(
     panel.background=element_blank(),
-    strip.background=element_rect(fill="lightyellow3")
+    strip.background=element_rect(fill="snow2", color="snow3"),
+    strip.clip="on"
+  ) + 
+  labs(
+    title = "Comparison of proportional race disparities \nin gynecological studies, 2010-2023",
+    y="Percentage", x="Year"
   )
 
 # ref https://www.data-to-viz.com/caveat/spaghetti.html
@@ -376,6 +381,28 @@ tmp %>%
 
 
 ```{r}
+# comparison of study length 
 
+article_lengths <- articles[c('study_year_start', 'study_year_end', 'journal')] |> 
+  mutate(research_length = study_year_end - study_year_start) |>
+  filter(!is.na(study_year_start) &
+           study_year_start > 0 & study_year_end > 0 )
+
+article_lengths_aggregated <- article_lengths |> 
+  group_by(journal, study_year_start) |> summarise(
+  mean = mean(research_length, rm.na=TRUE)
+) |> filter(!is.na(study_year_start) & mean != 99 & abs(study_year_start) != 99 & 
+              mean > 0)
+```
+
+```{r fig.width=10}
+ggplot(article_lengths, aes(x=study_year_start, y=research_length, )) + 
+  stat_density_2d(color="royalblue4") + 
+  xlim(1990, 2026) + 
+  ylim(-10, 20) + 
+  facet_wrap(~journal, scales="free_x") + 
+  labs(x="Starting Study Year", y="Research Length",
+       title="Comparison of study lengths across gynecological journals")
+  
 ```
 

@@ -1,7 +1,7 @@
 ---
-title: "Project title"
+title: "Analysis of Racial and Ethnic Disparities in Gynecological Studies"
 subtitle: "INFO 526 - Summer 2024 - Final Project"
-author: "Author names"
+author: "Lucas Smith"
 title-slide-attributes:
   data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg
   data-background-size: stretch
@@ -43,123 +43,216 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-#| label: load-data
+#| label: load-and-cleanse-data
 #| include: false
 # Load data here
-data(mtcars)
-mtcars$speed <- mtcars$hp / mtcars$wt
+library(tidyverse)
+source("./data_cleansing.R")
 
-data("penguins")
-```
+articles <- read_csv('./data/article_dat.csv')
+rows_by_race <- load_and_cleanse_race(articles)
+added_race_values <- assign_race_quantities(rows_by_race)
+aggregated_values <- aggregate_values_by_year_and_race(added_race_values)
+proportions <- get_relative_proportions(aggregated_values)
 
-# Using Quarto for presentations
 
-## Quarto
-
--   The presentation is created using the Quarto CLI
-
--   `##` sets the start of a new slide
-
-## Layouts
-
-You can use plain text
-
-::: columns
-::: {.column width="40%"}
--   or bullet points[^1]
-:::
-
-::: {.column width="60%"}
-or in two columns
-:::
-:::
-
-[^1]: And add footnotes
-
--   like
-
--   this
-
-## Code
-
-```{r, echo=FALSE}
-model <- lm(mpg ~ speed, data = mtcars) 
-
-model |> tidy()
-
-model |> glance()
 
 ```
 
-## Plots
+# Introduction
+
+## Data and Purpose
+
+-   TidyTuesday contains a repository of reproductive journals, each with values of the counts for racial and ethnic categories.
+
+-   Data is taken from 2010-2023
+
+-   With a background as a software engineer in the healthcare industry, I was interested to see how this data would change over time.
+
+## Description of Data
+
+Viewed below, the data is contained of 318 research articles, each with 61 features. Features contain basic journal information such as the journal, article name, year of publication, and the racial makeup of the article.
 
 ```{r}
-penguins |>
-  mutate(species = ifelse(species == "Adelie", "Adelie", "Other")) |>
-  ggplot(aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
-  geom_point()
+#| label: show article tibble
+tibble(articles)
 ```
 
-## Plot and text
+Reference <https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-02-25/readme.md>
 
-::: columns
-::: {.column width="50%"}
--   Some text
+## Research Questions
 
--   goes here
+I provided two questions for review.
+
+1.  How have ethnic and racial inclusion into research changed across time?
+2.  How is the length of a study noticeable between different journals?
+
+The overarching concept is to understand how trends could be seen over time.
+
+# Data analysis
+
+After review, cleansing was found to be the most intensive process.
+
+-   Many features were not needed (e.g., article name), as aggregation would be used.
+
+-   A challenging question was on designation of race stratification.
+
+    -   Race and ethnicity were not standardized across journal nor across article, making this challenging.
+
+# Data Cleansing
+
+## Overview
+
+Cleansing used in these stages
+
+1.  Stratifying race/ethnicity
+2.  Pivoting the dataframe to be able to use for analysis
+3.  Aggregate values
+4.  Alter values to proportions rather than raw values
+
+## Stratifying Race and Ethnicity
+
+I manually reviewed mappings of values to ensure accuracy.
+
+-   Originally, automation via regex was considered, but not implemented due to risk of incorrect categorization.
+
+-   For values that I could not identify, instead of a risk of missclassification, I identified as a separate category.
+
+-   Values were stratified into: American Indian or Alaskan Native, Asian, Black, Hispanic, Hawaiian or Pacific Islander, Other (Unknown), White, and Uncategorizable.
+
+## Pivoting
+
+Rows were designed as containing all values of race. This was pivoted to support visualization aggregation.
+
+| Journal   | race1 | race1ss | race2 | race2ss |
+|-----------|-------|---------|-------|---------|
+| Journal A | White | 10      | Asian | 3       |
+
+| Journal   | Race  | Race Count |
+|-----------|-------|------------|
+| Journal A | White | 10         |
+| Journal A | Asian | 3          |
+
+## Aggregation
+
+Values were aggregated across year and race to support a high level view of counts.
+
+| Journal | Year | Race  | Race Count |
+|---------|------|-------|------------|
+| A       | 2010 | White | 7          |
+| B       | 2011 | Asian | 5          |
+| B       | 2011 | Asian | 3          |
+
+Into
+
+| Year | Race  | Total Count |
+|------|-------|-------------|
+| 2010 | White | 7           |
+| 2011 | Asian | 8           |
+
+## Proportions
+
+Instead of using raw values, proportions were assigned. This was more accurate to provide a better understanding as to how an increase or decrease in disparities were conducted.
+
+-   Example: if the number of publications increased over the years, by default we could expect the number of people involved in studies to increase
+
+# Research Questions
+
+## Racial & Ethnic Inclusion Over Time
+
+::::: columns
+::: {.column width="35%"}
+1.  How have ethnic and racial inclusion into research changed across time?
 :::
 
-::: {.column width="50%"}
-```{r, warning=FALSE, fig.width=5.5}
-penguins |>
-  ggplot(aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot(linewidth = 0.75,
-               outlier.size = 2.5) +
-  theme_minimal(base_size = 15) +
-  theme(legend.key.size = unit(0.8, "cm"))
-```
-:::
-:::
-
-# A new section...
-
-## Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r}
-penguins |> 
-  head() |>
-  kableExtra::kable() |>
-  kableExtra::kable_styling()
-```
-
-## Images
-
-![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png){fig-align="center" width="500"}
-
-## Math Expressions {.smaller}
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. \$\\alpha+\\beta\$ renders $\alpha + \beta$. You can use the display style with double dollar signs:
-
+::: {.column width="65%"}
 ```         
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
 ```
 
-$$
-\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i
-$$
+```{r}
+#| label: create spaghetti plot
+tmp <- proportions %>%
+  mutate(race2=clean_race)
 
-Limitations:
+tmp %>%
+  ggplot( aes(x=year, y=freq)) +
+    geom_line( data=tmp %>% select(-clean_race), aes(group=race2), color="lightgrey", size=0.5, alpha=0.5) +
+    geom_line( aes(color=clean_race), color="#69b3a2", size=1.2 )+
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=14),
+      panel.grid = element_blank()
+    ) +
+    facet_wrap(~clean_race) + 
+  theme(
+    panel.background=element_blank(),
+    strip.background=element_rect(fill="lightyellow3")
+  ) + 
+  labs(
+    title = "Comparison of proportional race disparities \nin gynecological studies, 2010-2023",
+    y="Percentage", x="Year"
+  )
+```
+:::
+:::::
 
-1.  The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
+## Comparison of Study Length
 
-2.  There should not be spaces after the opening `$` or before the closing `$`.
+2.  How is the length of a study noticeable between different journals?
 
-# Wrap up
+-   Took 3 features, removed missing and filtered those without lengths
 
-## Feeling adventurous?
+```{r}
+#| echo: true
+#| label: get and cleanse journal length data
+article_lengths <- articles[c('study_year_start', 
+                              'study_year_end', 
+                              'journal')] |> 
+  mutate(research_length = study_year_end - study_year_start) |>
+  filter(!is.na(study_year_start) &
+           study_year_start > 0 & study_year_end > 0 )
+```
 
--   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
+## Comparison of Study Length 
 
--   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.
+```{r fig.width=8}
+#| label: plot article lengths
+ggplot(article_lengths, aes(x=study_year_start, y=research_length, )) + 
+  stat_density_2d(color="royalblue4") + 
+  xlim(1990, 2026) + 
+  ylim(-10, 20) + 
+  facet_wrap(~journal, scales="free_x") + 
+  labs(x="Starting Study Year", y="Research Length",
+       title="Comparison of study lengths across gynecological journals")
+  
+```
+
+# Analysis
+
+## Analysis
+
+-   Comparison of race/ethnicity across time
+
+    -   Not much change
+
+    -   2020: highlight of 98% of values were listed as `Unknown`
+
+-   Comparison of study length
+
+    -   Journals seemed to have trends of lengths
+
+        -   *Family and sterility* being less than 5
+
+        -   *BJOG* around 10
+
+    -   Human reproduction started in incremental years:
+
+        -   2000, 2005, 2010
+
+# References
+
+-   <https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-02-25/readme.md>
+
+-   <https://r-graph-gallery.com/2d-density-plot-with-ggplot2.html#distr>
+
+-   <https://www.data-to-viz.com/caveat/spaghetti.html>
