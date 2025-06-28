@@ -171,6 +171,24 @@ Instead of using raw values, proportions were assigned. This was more accurate t
 
 ```{r}
 #| label: create spaghetti plot
+
+race_eth_mapping_shortened <- c(
+  "Asian"="Asian",
+  "Black or African American"="Black or African American",
+  "American Indian or Alaska Native"="AI or AN",
+  "Hispanic or Latino"="Hispanic or Latino",
+  "Native Hawaiian Or Pacific Islander"="NH or PI",
+  "Other"="Other",
+  "Uncategorized"="Uncategorized",
+  "Unknown"="Unknown",
+  "White"="White"
+)
+
+race_labeller <- function(variable, value) {
+  return (race_eth_mapping_shortened[value])
+}
+
+
 tmp <- proportions %>%
   mutate(race2=clean_race)
 
@@ -183,7 +201,7 @@ tmp %>%
       plot.title = element_text(size=14),
       panel.grid = element_blank()
     ) +
-    facet_wrap(~clean_race) + 
+    facet_wrap(~clean_race, labeller = race_labeller) + 
   theme(
     panel.background=element_blank(),
     strip.background=element_rect(fill="lightyellow3")
@@ -216,12 +234,26 @@ article_lengths <- articles[c('study_year_start',
 ## Comparison of Study Length 
 
 ```{r fig.width=8}
+
+journal_labels <- c(
+  "BJOG : an international journal of obstetrics and gynaecology"="BJOG",
+  "American journal of obstetrics and gynecology"="AJOG",
+  "Fertility and sterility"="Fertility and sterility",
+  "Gynecologic oncology"="Gynecologic oncology",
+  "Human reproduction (Oxford, England)"="Human reproduction (Oxford, England)",
+  "Obstetrics and gynecology"="Obstetrics and gynecology"
+)
+
+journal_labeller <- function(variable, value) {
+  return (journal_labels[value])
+
+}
 #| label: plot article lengths
 ggplot(article_lengths, aes(x=study_year_start, y=research_length, )) + 
   stat_density_2d(color="royalblue4") + 
   xlim(1990, 2026) + 
   ylim(-10, 20) + 
-  facet_wrap(~journal, scales="free_x") + 
+  facet_wrap(~journal, scales="free_x", labeller=journal_labeller) + 
   labs(x="Starting Study Year", y="Research Length",
        title="Comparison of study lengths across gynecological journals")
   
