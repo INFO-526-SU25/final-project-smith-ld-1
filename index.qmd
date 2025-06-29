@@ -19,4 +19,408 @@ execute:
 
 ## Abstract
 
-Add project abstract here.
+This project investigates gynecological journals across time, reviewing racial and ethnic inclusion as well as journal publication frequency. Initial findings suggest no change of race and ethnicity inclusion over time. Further investigation would be required to identify validity and
+
+```{r}
+packages <- c("dplyr", "ggplot2", "lubridate", "scales", "tidyr", "showtext", "ggtext", "waffle")
+
+for (pkg in packages) {
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg)
+    library(pkg, character.only = TRUE)
+  }
+}
+```
+
+```{r}
+# set width of code output
+options(width = 65)
+
+
+
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+
+articles <- read_csv('./data/article_dat.csv')
+
+white <- c(
+  "WHITE" = "White",
+  "HISPANIC WHITE" = "White",
+  "EUROPEAN AMERICAN" = "White",
+  "CAUCASIAN OR WHITE" = "White",
+  "WHITE, NON-HISPANIC" = "White",
+  "CAUCASIAN" = "White",
+  "NON-HISPANIC WHITE" = "White",
+  "NH WHITE" = "White",
+  "NON-HISPANIC WHITE AND ADDITIONAL RACE AND ETHNICITIES" = "White",
+  "WHITE/CAUCASIAN"="White",
+  "NON HISPANIC WHITES"="White",
+  "CAUCASIANS"="White",
+  "WHITE - NOT HISPANIC OR LATINO",
+  "WHITE (NON-HISPANIC)"="White",
+  "WHITE NON-HISPANIC"="White",
+  "WHITE DONOR / WHITE RECIPIENT"="White",
+  "U.S.-BORN, NON-HISPANIC WHITE;"="White",
+  "NON-HISPANIC, WHITE"="White",
+  "WHITE (OR CAUCASIAN)"="White",
+  "WHITES"="White",
+  "WHITE-NON-HISPANIC"="White",
+  "NON-LATINA WHITE"="White",
+  "WHITE OR CAUCASIAN"="White",
+  "WHITE - NOT HISPANIC OR LATINO"="White",
+  "NON HISPANIC WHITE"="White"
+
+)
+
+black <- c(
+  "BLACK" = "Black or African American",
+  "NON-HISPANIC BLACK" = "Black or African American",
+  "AFRICAN AMERICAN" = "Black or African American",
+  "BLACK/AFRICAN AMERICAN" = "Black or African American",
+  "BLACK, NON-HISPANIC" = "Black or African American",
+  "BLACK NON-HISPANIC" = "Black or African American",
+  "BLACK OR AFRICAN AMERICAN" = "Black or African American",
+  "AFRICAN AMERICANS" = "Black or African American",
+  "AFRICAN-AMERICAN" = "Black or African American",
+  "AFRICAN AMERICAN/BLACK" = "Black or African American",
+  "U.S.-BORN, NON-HISPANIC BLACK" = "Black or African American",
+  "NON-HISPANIC, BLACK" = "Black or African American",
+  "BLACKS" = "Black or African American",
+  "BLACK (NON-HISPANIC)" = "Black or African American",
+  "NONBLACK" = "Black or African American",
+  "AFRICAN AMERICAN OR BLACK" = "Black or African American",
+  "BLACK DONOR / BLACK RECIPIENT" = "Black or African American",
+  "BLACK DONOR / NONBLACK RECIPIENT" = "Black or African American",
+  "AFRICAN AMERICAN, NON-HISPANIC" = "Black or African American",
+  "AFRICAN-AMERICAN, NON-HISPANIC" = "Black or African American",
+  "NON-HISPANIC BLACK/AFRICAN AMERICAN" = "Black or African American"
+)
+
+hispanic <- c(
+  "HISPANIC" = "Hispanic or Latino",
+  "HISPANIC WHITES" = "Hispanic or Latino",
+  "HISPANIC/LATINA" = "Hispanic or Latino",
+  "LATINA/HISPANIC" = "Hispanic or Latino",
+  "US-BORN HISPANIC" = "Hispanic or Latino",
+  "OTHER HISPANIC" = "Hispanic or Latino",
+  "LATINA" = "Hispanic or Latino",
+  "HISPANIC OR LATINO"="Hispanic or Latino",
+  "LATINO"="Hispanic or Latino",
+  "LATINO AMERICAN"="Hispanic or Latino",
+  "HISPANIC OR LATINA"="Hispanic or Latino",
+  "HISPANIC OR LATINO"="Hispanic or Latino",
+  "HISPANIC (OF ANY RACE)"="Hispanic or Latino",
+  "HISPANIC, SPANISH-SPEAKING"="Hispanic or Latino",
+  "LATINA WHITE"="Hispanic or Latino",
+  "FOREIGN-BORN HISPANIC"="Hispanic or Latino",
+  "HISPANIC, NOT OTHERWISE SPECIFIED"="Hispanic or Latino",
+  "HISPANIC DONOR / HISPANIC RECIPIENT"="Hispanic or Latino",
+  "HISPANIC/LATINX"="Hispanic or Latino",
+  "HISPANIC/LATINO/A"="Hispanic or Latino",
+  "HISPANIC DONOR / NON-HISPANIC RECIPIENT"="Hispanic or Latino",
+  "HISPANIC, ENGLISH-SPEAKING"="Hispanic or Latino",
+  "HISPANIC AMERICAN"="Hispanic or Latino",
+  "HISPANIC, LATINA"="Hispanic or Latino",
+  "HISPANIC, ENGLISH-SPEAKING"="Hispanic or Latino",
+  "HISPANIC OR LATINX"="Hispanic or Latino",
+  "LATINA (SPANISH SPEAKING)"="Hispanic or Latino",
+  "LATINA (ENGLISH-SPEAKING)"="Hispanic or Latino",
+  "HISPANIC/LATINO"="Hispanic or Latino"
+)
+
+asian <- c(
+  "ASIAN" = "Asian",
+  "ASIAN AMERICAN" = "Asian",
+  "NON-HISPANIC ASIAN" = "Asian",
+  "ASIAN/PACIFIC ISLANDER" = "Asian",
+  "ASIAN OR PACIFIC ISLANDER" = "Asian",
+  "ASIAN/PACIFIC" = "Asian",
+  "NON-HISPANIC ASIAN OR PACIFIC ISLANDER" = "Asian",
+  "CHINESE"="Asian",
+"NON-HISPANIC, ASIAN" = "Asian",
+"ASIAN DONOR / NON-ASIAN RECIPIENT" = "Asian",
+"ASIAN DONOR / ASIAN RECIPIENT" = "Asian",
+"SOUTH ASIAN" = "Asian",
+"ASIAN AND OTHER" = "Asian",
+"ASIAN OR ASIAN AMERICAN" = "Asian",
+"ASIAN/NHOPI" = "Asian",
+"ASIAN, NON-HISPANIC" = "Asian",
+"ASIAN AMERICAN AND PACIFIC ISLANDER" = "Asian",
+"ASIAN/ASIAN AMERICAN" = "Asian"
+
+)
+
+aian <- c(
+"AMERICAN INDIAN/ALASKA NATIVE" = "American Indian or Alaska Native",
+"NON-HISPANIC AMERICAN INDIAN/ALASKA NATIVE" = "American Indian or Alaska Native",
+"NON-HISPANIC NATIVE AMERICAN" = "American Indian or Alaska Native",
+"AMERICAN INDIAN/ALASKA NATIVE" = "American Indian or Alaska Native",
+"AMERICAN INDIAN/ALASKAN" = "American Indian or Alaska Native",
+  "AMERICAN INDIAN, ALASKA NATIVE, AND NATIVE HAWAIIAN" = "American Indian or Alaska Native",
+  "AMERICAN INDIAN OR ALASKA NATIVE" = "American Indian or Alaska Native",
+  "AMERICAN INDIAN OR ALASKA NATIVE, NON-HISPANIC" = "American Indian or Alaska Native",
+  "NATIVE AMERICAN" = "American Indian or Alaska Native",
+  "NON-HISPANIC AMERICAN INDIAN" = "American Indian or Alaska Native",
+  "INDIGENOUS AMERICAN" = "American Indian or Alaska Native",
+  "AMERICAN INDIAN/ALASKAN NATIVE"="American Indian or Alaska Native",
+  "AMERICAN INDIAN/ALASKA NATIVE"="American Indian or Alaska Native",
+"INDIAN AMERICAN"="American Indian or Alaska Native",
+"NATIVE AMERICAN OR ALASKAN NATIVE"="American Indian or Alaska Native"
+)
+
+other_unk <- c(
+  "AMERICAN INDIAN"= "Other",
+  "ALASKAN NATIVE"= "Other",
+  "NON-HISPANIC AMERICAN INDIAN OR ALASKA NATIVE" = "Other",
+  "AMERICAN INDIAN OR ALASKAN" = "Other",
+  "INDIGENOUS" = "Other",
+  "OTHER" = "Other",
+  "OTHER RACE" = "Other",
+  "OTHERS"="Other",
+  "OTHER/UNKNOWN"="Other",
+  "WHITE DONOR / NONWHITE RECIPIENT" = "Other",
+  "NON WHITE" = "Other",
+  "NON WHITE RACE" = "Other",
+  "NON-WHITE" = "Other",
+  "NON-BLACK" = "Other",
+  "HBNO (HISPANIC, BLACK, NATIVE AMERICAN/ALASKAN AND OTHER)" = "Other",
+  "NON-HISPANIC OTHER" = "Other",
+  "NON-HISPANIC OTHER RACE" = "Other",
+  "NON-HISPANIC, ALL OTHERS" = "Other",
+  "OTHER OR MULTIPLE RACES, NON-HISPANIC" = "Other",
+  "HISPANIC ETHNICITY" = "Other",
+  "MULTIRACIAL" = "Other",
+  "ADDITIONAL RACES AND ETHNICITIES OR MIXED" = "Other",
+  "MULTIPLE OR OTHER" = "Other",
+  "TWO OR MORE RACES" = "Other",
+  "NON-HISPANIC OTHER-MULTI-RACE" = "Other",
+  "OTHER OR MISSING" = "Other",
+  "OTHER, MIXED, UNKNOWN" = "Other",
+  "SOMALIA-BORN" = "Other",
+  "AFRICAN-BORN BLACK" = "Other",
+  "OTHER MINORITY" = "Other",
+  "OTHER/MULTIRACIAL" = "Other",
+  "MEXICAN/AMERICAN" = "Other",
+  "OTHER RACES OR ETHNICITY" = "Other",
+  "MULTIRACIAL OR OTHER" = "Other",
+  "OTHER RACE-ETHNICITY" = "Other",
+
+  "UNKNOWN"="Unknown",
+  "NOT IDENTIFIED"="Unknown",
+  "OTHER OR UNKNOWN"="Unknown",
+  "OTHER OR ASIAN"="Unknown",
+  "MULTIRACIAL"="Unknown",
+  "MISSING"="Unknown",
+  "OTHER/UNKNOWN"="Unknown",
+  "MORE THAN ONE RACE"="Unknown",
+"MULTIPLE RACES"="Unknown",
+"NOT IDENTIFIED"="Unknown",
+"UNKNOWN OR MISSING"="Unknown",
+"NONE OF THE ABOVE"="Unknown",
+"UNABLE TO DETERMINE"="Unknown",
+"DECLINED OR UNKNOWN"="Unknown",
+"NATIVE AMERICAN OR UNKNOWN"="Unknown",
+"UNKNOWN/OTHER"="Unknown",
+"OTHER/NOS/UNKNOWN"="Unknown",
+  "OTHER/MISSING"="Unknown",
+"ALL OTHER/UNKNOWN OR MISSING"="Unknown",
+"RECIPIENTS MISSING RACE/ETHNICITY"="Unknown",
+"UNAVAILABLE"="Unknown",
+"OTHERS OR UNKNOWN"="Unknown",
+"NONE OF THE ABOVE, MULTIPLE, OR UNKNOWN"="Unknown",
+"DECLINED OR UNAVAILABLE"="Unknown",
+"NONE OF THE ABOVE, NON-HISPANIC"="Unknown",
+"UNKNOWN/NOT DOCUMENTED"="Unknown",
+"ITEM MISSED OR SKIPPED"="Unknown",
+"OTHER, MIXED, OR UNKNOWN"="Unknown"
+)
+
+nhpi <- c(
+  "HAWAIIAN"="Native Hawaiian Or Pacific Islander",
+"PACIFIC ISLANDER/HAWAIIAN"="Native Hawaiian Or Pacific Islander",
+"NATIVE HAWAIIAN"="Native Hawaiian Or Pacific Islander",
+"PACIFIC ISLANDER"="Native Hawaiian Or Pacific Islander",
+"NON-HISPANIC ASIAN/PACIFIC ISLANDER"="Native Hawaiian Or Pacific Islander",
+"NONHISPANIC ASIAN OR PACIFIC ISLANDER"="Native Hawaiian Or Pacific Islander",
+"NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER"="Native Hawaiian Or Pacific Islander",
+"NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER, NON-HISPANIC"="Native Hawaiian Or Pacific Islander",
+"HAWAIIAN/PACIFIC ISLANDER"="Native Hawaiian Or Pacific Islander",
+"NON-HISPANIC ASIAN AND PACIFIC ISLANDER"="Native Hawaiian Or Pacific Islander",
+"NATIVE HAWAIIAN OR PACIFIC ISLANDER"="Native Hawaiian Or Pacific Islander",
+"NATIVE HAWAIIAN/PACIFIC ISLANDER"="Native Hawaiian Or Pacific Islander",
+
+"URM (BLACK, HISPANIC, NATIVE AMERICAN/ALASKAN, ASIAN/PACIFIC ISLANDER, AND OTHER)"="Uncategorized",
+"WHITE/OTHER"="Uncategorized",
+"SOUTH AND CENTRAL AMERICAN"="Uncategorized",
+"PUERTO RICAN"="Uncategorized",
+"MEXICAN"="Uncategorized",
+"CUBAN"="Uncategorized",
+"NONWHITE"="Uncategorized",
+"NH OTHER"="Uncategorized",
+"NON-HISPANIC, NONE OF THE ABOVE"="Uncategorized",
+"NON-HISPANIC MIXED"="Uncategorized",
+"AMERICAN INDIAN, ALASKA NATIVE, OR OTHER"="Uncategorized",
+"ASIAN, NATIVE HAWAIIAN, OR PACIFIC ISLANDER"="Uncategorized",
+"NATIVE"="Uncategorized",
+"NH BLACK"="Uncategorized",
+"OTHER (ASIAN, PACIFIC ISLANDER, NATIVE AMERICAN, MIXED OR OTHER)"="Uncategorized",
+"NON AFRICAN AMERICAN"="Uncategorized",
+"NON-AFRICAN AMERICAN"="Uncategorized",
+"EUROPEAN AMERICANS"="Uncategorized",
+"MINORITY"="Uncategorized"
+)
+
+
+race_mapping <- c(
+  white,
+  black,
+  hispanic,
+  asian,
+  aian,
+  other_unk,
+  nhpi
+)
+race_columns <- c("race1", "race2", "race3", "race4", "race5", "race6", "race7", "race8")
+
+# articles <- articles |>
+#   mutate(clean_race = race_mapping[as.character(original_race_column)])
+
+unique_race_values <- articles |>
+  pivot_longer(cols = all_of(race_columns), names_to="race_column", values_to = "race_cleansed") |>
+  mutate(race_cleansed=toupper(race_cleansed))
+
+unique_race_values <- unique_race_values |>
+   mutate(clean_race = race_mapping[as.character(race_cleansed)])
+
+endingcleansed <- unique_race_values |> 
+  rowwise() |>
+    mutate(race_value = cur_data()[[paste0(race_column, "_ss")]]) 
+
+data <- endingcleansed |> select(clean_race, race_value, journal, year) |> 
+  filter(!is.na(clean_race) | !is.na(clean_race))
+
+
+aggregated_values <- data |> group_by(year, clean_race) |> summarise(
+  total_counts = sum(race_value)
+)
+
+# we find that some values = -99, initial journal incorrect inputs
+
+aggregated_values <- aggregated_values |> ungroup() |> filter(total_counts != -99)
+
+proportions <- aggregated_values |> 
+  group_by(year, clean_race) |> 
+  summarise(n = sum(total_counts)) |>
+  mutate(freq = (n / sum(n)) * 100)
+
+proportions <- proportions |> filter(round(freq, 0) > 0)
+
+```
+
+-   Intro
+
+    -   The aim for this project was to review research articles from gynecological journals to identify patterns and trends, notably across time and journal. Data was taken from TidyTuesday. The data itself contains 318 observations, with each one having 65 features; data ranges in time from 2010 to 2023. Features contain basic journal information such as the journal, article name, year of publication, and the racial makeup of the article. With a background as a software engineer in the healthcare industry, I was interested to see how this data would change over time. Two questions were posed: How ethnic and racial inclusion has changed across time, and how study length would differ between journals.
+
+-   Question 1
+
+    -   Race and ethnicity historically challenging
+
+    -   Known from background in medicine and previous learning in data science that skewed data can cause imbalance and misunderstanding of underlying trends.
+
+    -   To answer this question, requires cleansing data properly for each race, as each journal and each article within each journal did not standardize a race and ethnicity.
+
+    -   The first plot I decided to make is a line plot over time. I found that I needed to create facets for each graph to better see trends within each race over time.
+
+    ```{r}
+    tmp <- proportions %>%
+      mutate(race2=clean_race)
+
+    tmp %>%
+      ggplot( aes(x=year, y=freq)) +
+        geom_line( data=tmp %>% select(-clean_race), aes(group=race2), color="lightgrey", size=0.5, alpha=0.5) +
+        geom_line( aes(color=clean_race), color="darkolivegreen4", size=1.2 )+
+        theme(
+          legend.position="none",
+          plot.title = element_text(size=14),
+          panel.grid = element_blank()
+        ) +
+        facet_wrap(~clean_race) + 
+      theme(
+        panel.background=element_blank(),
+        strip.background=element_rect(fill="snow2", color="snow3"),
+        strip.clip="on"
+      ) + 
+      labs(
+        title = "Comparison of proportional race disparities \nin gynecological studies, 2010-2023",
+        y="Percentage", x="Year",
+        caption="Source: TidyTuesday"
+      )
+
+    # ref https://www.data-to-viz.com/caveat/spaghetti.html
+    ```
+
+    -   
+
+    ```{r}
+    ggplot(proportions, aes(fill = clean_race, values = freq)) +
+      geom_waffle(color = "white", size = .25, flip = TRUE) +
+      facet_wrap(~year, nrow = 1, strip.position = "bottom", scales="free_x") +
+      scale_x_discrete() + 
+      scale_y_continuous(labels = function(x) x * 10, # make this multiplyer the same as n_rows
+                         expand = c(0,0))+
+      labs(title = "Comparison of Race and Ethnicity over time\nin gynecological journals",
+           caption = "Source: TidyTuesday")+
+      theme_minimal() + 
+      theme(strip.placement = "outside",
+           panel.spacing.x = unit(.01, "lines"),
+           ) + 
+      guides(
+        fill=guide_legend(title="Race/Ethnic Category")
+      )
+    ```
+
+-   
+
+    -   Analysis
+
+        -   Below are the graphs. We see
+
+    -   Discussion
+
+        -   We find that over time there is no significant change between the racial groups. There is a high change in 2020, where the number of unknown racial/ethnicity rises to 98%. I believe this to be an anomoly due to Covid. The population under white racial group is trending around the same. The years 2010-2012 have a high percentage, and then trend downward, however the percentage rises again towards 2021.
+
+-   Question 2
+
+    -   How is the length of a study noticeable between different journals?
+
+    -   This question could further insight into racial populations among different journals. I was interested in this question to first identify how journals themselves differed - as I have never invested much time into writing research articles themselves, it seems plausible that different journals would be used for different occasions. To answer this question, we would only need the start and end date of each journal, along with the journal that the article was published to.
+
+    -   The transformation required to answer this question was to subtract the end year minus the start year. Acknowledging that this would produce some that have a 0 year length, meaning that they would have started and ended in the same year. The first graph to answer this question was to facet by journal. I decided to use contour mappings to identify and differentiate; the main purpose of doing so was to not only identify central locations for each journal, but also view a graph type not commonly seen.
+
+    -   \[ add second graph usage \]
+
+    -   I found that there was a difference between articles. As expected, longer standing article journals do not have any data past around 2010, because they publish on a 10 year basis. It was interesting to see that the Human Reproduction journal very clearly publishes every 2 years.
+
+```{r}
+article_lengths <- articles[c('study_year_start', 'study_year_end', 'journal')] |> 
+  mutate(research_length = study_year_end - study_year_start) |>
+  filter(!is.na(study_year_start) &
+           study_year_start > 0 & study_year_end > 0 )
+```
+
+```{r}
+ggplot(article_lengths, aes(x=study_year_start, y=research_length, )) + 
+  stat_density_2d(color="royalblue4") + 
+  xlim(1990, 2026) + 
+  ylim(-10, 20) + 
+  facet_wrap(~journal, scales="free_x") + 
+  labs(x="Starting Study Year", y="Research Length",
+       title="Comparison of study lengths across gynecological journals")
+```

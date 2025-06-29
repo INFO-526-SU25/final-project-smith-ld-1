@@ -231,7 +231,7 @@ article_lengths <- articles[c('study_year_start',
            study_year_start > 0 & study_year_end > 0 )
 ```
 
-## Comparison of Study Length 
+## Comparison of Study Length
 
 ```{r fig.width=8}
 

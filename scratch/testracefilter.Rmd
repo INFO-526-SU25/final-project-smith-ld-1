@@ -3,9 +3,14 @@ title: "testracefilter"
 output: html_document
 ---
 
+```{r}
+install.packages("waffle")
+```
 
 ```{r}
 library(tidyverse)
+library(waffle)
+
 articles <- read_csv('../data/article_dat.csv')
 ```
 
@@ -404,5 +409,31 @@ ggplot(article_lengths, aes(x=study_year_start, y=research_length, )) +
   labs(x="Starting Study Year", y="Research Length",
        title="Comparison of study lengths across gynecological journals")
   
+```
+```{r}
+install.packages("showtext")
+library(showtext)
+install.packages("ggtext")
+library(ggtext)
+```
+
+
+```{r}
+p = ggplot(proportions, aes(fill = clean_race, values = freq)) +
+  geom_waffle(color = "white", size = .25, n_rows = 10, flip = TRUE) +
+  facet_wrap(~year, nrow = 1, strip.position = "bottom", scales="free_x") +
+  scale_x_discrete() + 
+  scale_y_continuous(labels = function(x) x * 10, # make this multiplyer the same as n_rows
+                     expand = c(0,0))+
+  labs(title = "Comparison of Race and Ethnicity over time\nin gynecological journals",
+       caption = "Source: TidyTuesday")+
+  theme_minimal() + 
+  theme(strip.placement = "outside",
+       panel.spacing.x = unit(.1, "lines"),
+       ) + 
+  guides(
+    fill=guide_legend(title="Race/Ethnic Category")
+  )
+p
 ```
 
