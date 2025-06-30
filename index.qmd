@@ -1,11 +1,11 @@
 ---
-title: "Project Title"
-subtitle: "INFO 526 - Summer 2024 - Final Project"
+title: "Analysis of Gynecological Research Articles"
+subtitle: "INFO 526 - Summer 2025 - Final Project"
 author: 
-  - name: "Team name"
+  - name: "Lucas Smith"
     affiliations:
       - name: "School of Information, University of Arizona"
-description: "Project description"
+description: "A review of racial and ethnic disparities in research articles as well as a comparison of research lengths beetween journals."
 format:
    html:
     code-tools: true
@@ -26,7 +26,7 @@ This project investigates gynecological journals across time, reviewing racial a
 I will load data first to make it easier to see the visualizations in the write-up.
 
 ```{r}
-packages <- c("dplyr", "ggplot2", "lubridate", "scales", "tidyr", "showtext", "ggtext", "waffle")
+packages <- c("dplyr", "ggplot2", "lubridate", "scales", "tidyr", "showtext", "ggtext", "waffle", "tidyverse")
 
 for (pkg in packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -431,7 +431,7 @@ journal_labeller <- function(variable, value) {
 ggplot(article_lengths, aes(x=study_year_start, y=research_length, )) + 
   stat_density_2d(color="royalblue4") + 
   xlim(1990, 2026) + 
-  ylim(-10, 20) + 
+  ylim(-10, 20) + theme_minimal() + 
   facet_wrap(~journal, scales="free_x") + 
   labs(x="Starting Study Year", y="Research Length",
        title="Comparison of study lengths across gynecological journals")
@@ -444,8 +444,8 @@ ggplot(article_lengths, aes(x=journal, y=research_length)) +
   geom_boxplot()  +
   geom_segment(y = median_research_time, x=0.5, xend=6.5, lty="dotted") + 
   annotate("text", label="Median", x=6.8, y=median_research_time) + 
-      coord_cartesian(clip = "off") +
-  theme(plot.margin = margin(10, 40, 10, 10),
+      coord_cartesian(clip = "off") + theme_minimal() + 
+  theme(plot.margin = margin(10, 50, 10, 10),
 ) + scale_x_discrete(labels = journal_labels) + 
   labs(
     x="Research Journal", 
@@ -453,13 +453,9 @@ ggplot(article_lengths, aes(x=journal, y=research_length)) +
     title="Comparison of Journal Research Lengths", 
     subtitle="Gynecological Journals, 2010-2023",
     caption="Source: TidyTuesday"
-  )
+  ) 
 ```
 
 ## Discussion 
 
 I found that there was a difference between articles. As expected, longer standing article journals do not have any data past around 2010, because they publish on a 10 year basis. It was interesting to see that the Human Reproduction journal very clearly publishes every 2 years. Gynecologic Oncology was the highest, with some research journals listing more than 30 years.
-
-# Summary
-
-While interesting to find no significant change of race or ethnicity

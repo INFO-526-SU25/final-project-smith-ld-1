@@ -4,7 +4,6 @@ output: html_document
 ---
 
 ```{r}
-install.packages("waffle")
 ```
 
 ```{r}
@@ -411,9 +410,6 @@ ggplot(article_lengths, aes(x=study_year_start, y=research_length, )) +
   
 ```
 ```{r}
-install.packages("showtext")
-library(showtext)
-install.packages("ggtext")
 library(ggtext)
 ```
 
