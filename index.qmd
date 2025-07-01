@@ -19,11 +19,11 @@ execute:
 
 ## Abstract
 
-This project investigates gynecological journals across time, reviewing racial and ethnic inclusion as well as journal publication frequency. Initial findings suggest no change of race and ethnicity inclusion over time. Further investigation would be required to identify validity and
+This project investigates gynecological journals across time, reviewing racial and ethnic inclusion as well as journal publication frequency. Initial findings suggest no change of race and ethnicity inclusion over time. Further investigation would be required to identify validity and longer trends.
 
 # Pre-formatting Data
 
-I will load data first to make it easier to see the visualizations in the write-up.
+I will load data first to make it easier to see the visualizations in the write-up. After that, data will need to be cleansed according to race and ethnic stratification.
 
 ```{r}
 packages <- c("dplyr", "ggplot2", "lubridate", "scales", "tidyr", "showtext", "ggtext", "waffle", "tidyverse")
@@ -337,7 +337,7 @@ proportions <- proportions |> filter(round(freq, 0) > 0)
 
 # Intro
 
--   The aim for this project was to review research articles from gynecological journals to identify patterns and trends, notably across time and journal. Data was taken from TidyTuesday. The data itself contains 318 observations, with each one having 65 features; data ranges in time from 2010 to 2023. Features contain basic journal information such as the journal, article name, year of publication, and the racial makeup of the article. With a background as a software engineer in the healthcare industry, I was interested to see how this data would change over time. Two questions were posed: How ethnic and racial inclusion has changed across time, and how study length would differ between journals.
+The aim for this project was to review research articles from gynecological journals to identify patterns and trends, notably across time and journal. Data was taken from TidyTuesday. The data itself contains 318 observations, with each one having 65 features; data ranges in time from 2010 to 2023. Features contain basic journal information such as the journal, article name, year of publication, and the racial makeup of the article. With a background as a software engineer in the healthcare industry, I was interested to see how this data would change over time. Two questions were posed: How ethnic and racial inclusion has changed across time, and how study length would differ between journals.
 
 # Question 1
 
@@ -456,6 +456,6 @@ ggplot(article_lengths, aes(x=journal, y=research_length)) +
   ) 
 ```
 
-## Discussion 
+## Discussion
 
 I found that there was a difference between articles. As expected, longer standing article journals do not have any data past around 2010, because they publish on a 10 year basis. It was interesting to see that the Human Reproduction journal very clearly publishes every 2 years. Gynecologic Oncology was the highest, with some research journals listing more than 30 years.
